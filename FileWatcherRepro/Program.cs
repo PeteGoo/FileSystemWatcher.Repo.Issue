@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net.Appender;
+using log4net.Config;
 
 namespace FileWatcherRepro
 {
@@ -12,13 +14,14 @@ namespace FileWatcherRepro
 
         static void Main(string[] args)
         {
-            var watcher = new FileWatcherImplementation();
+            BasicConfigurator.Configure();
+
+            var watcher = new FileWatcherRx();
 
             while(true)
             {
-                Console.ReadKey(true);
-
                 Console.WriteLine("Press any key to create a file");
+                Console.ReadKey(true);
                 Task.Factory.StartNew(WriteFileSlow);
             }
         }
